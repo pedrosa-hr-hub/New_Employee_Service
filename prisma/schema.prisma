@@ -10,11 +10,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model employee {
+model Employee {
   id Int @id @default(autoincrement())
-  register Int @unique @default(autoincrement())
-  name String
-  date_of_birth DateTime
-  sector Int
-  identification_document String @unique
+  register Int @unique @default(autoincrement()) //controle
+  name String //nome
+  date_of_birth DateTime //data de nascimento
+  identification_document String @unique //documento de identidade
+  sex String //sexo
+  sector Int //área
+  sectorId Sector @relation(fields: [sector], references: [id])
+  office Int //cargo
+  officeId Office @relation(fields: [office], references: [id])
+}
+
+model Office {
+  id Int @id @default(autoincrement())
+  CBO_description String
+  employee Employee[]
+}
+
+model Sector {
+  id Int @id @default(autoincrement())
+  description String
+  coordinator String
+  manager String
+  director String
+  employee Employee[]
 }
